@@ -1,1 +1,1 @@
-# domain-modeling-made-functional
+# Domain Modeling Made Functional
