@@ -1,0 +1,65 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj": {}
+  },
+  "projects": {
+    "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj",
+        "projectName": "OrderTakingSystem",
+        "projectPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj",
+        "packagesPath": "/Users/dkZsBoTo/.nuget/packages/",
+        "outputPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/Users/dkZsBoTo/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0"
+        ],
+        "sources": {
+          "/Users/dkZsBoTo/.dotnet/sdk/6.0.404/FSharp/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0": {
+            "targetAlias": "net6.0",
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net6.0": {
+          "targetAlias": "net6.0",
+          "dependencies": {
+            "FSharp.Core": {
+              "include": "Runtime, Compile, Build, Native, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[6.0.7, )",
+              "generatePathProperty": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/Users/dkZsBoTo/.dotnet/sdk/6.0.404/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kJkSi11xNVdqCSYgYNteLXBrMtNtIm0EDGziqEScFH0V1MXNBZjczBoEQty1XaN3L2FUd32IXETGxiI/ZIGGJQ==",
+  "success": true,
+  "projectFilePath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj",
+  "expectedPackageFiles": [
+    "/Users/dkZsBoTo/.nuget/packages/fsharp.core/6.0.7/fsharp.core.6.0.7.nupkg.sha512"
+  ],
+  "logs": []
+}
