@@ -293,3 +293,51 @@ Bounded contexts are autonomous software components with well defined boundaries
 - The Billing context determines the contract and the Order-taking system will provide the contract
 - Order-taking context will submit to using the same model as the product catalog
 - External address checking service has a model that is not at all similar to our domain, hence the ACL
+
+### Workflows within a Bounded Context
+- Initiated by Commands
+- Output event(s)
+- Public
+    - Triggered outside of the bounded context
+- Internal
+- Each of these workflows will be mapped to a function with input and outputs
+- "pipes"
+- A workflow is always contained within a single bounded context, never goes "end to end"
+
+![](./assets/workflow-in-context.png)
+
+- Input to workflows is always data associated with a commands
+- Output is always a set of events to communicate to other contexts
+- Since we determined the relationship earlier between Billing and Order-Taking, we need to send only the information Billing needs and no more
+- This also means emitting a new event BillableOrderEvent
+
+![](./assets/updated-workflow.png)
+
+```ts
+data BillableOrderPlaced =
+    OrderId
+    AND BillingAddress
+    AND AmountToBill
+```
+
+- Important to note: workflow functions do not publish events, they simply return them
+    - How the events get published is a separate concern
+
+#### Avoid Domain Events within a Bounded Context
+- Object oriented design likes to utilize "listeners" and raise domain events internally within a workflow
+- Avoid global event managers with mutable state 
+- Functional design - "append it to the end of the workflow"
+
+### The Onion Architecture
+
+- "code that changes together belongs together"
+
+![](./assets/onion.png)
+
+- Put domain code at the center
+- All dependencies must point inward
+- Push any I/O to the edges of the onion
+- Keep the domain pure and immutable
+- Core domain should only be concerned with the business logic
+- Keeping I/O at the edges aligns well with persistence ignorance
+    - Domain should not contain any awareness of the DB logic
