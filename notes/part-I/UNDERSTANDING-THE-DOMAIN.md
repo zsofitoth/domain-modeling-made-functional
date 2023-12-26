@@ -50,11 +50,11 @@
         - Domain experts in billing, shipping and order-taking
     - Defined 3 bounded contexts
 
-![](../assets/spaces.png)
+![](./assets/spaces.png)
 
 - Context Map
 
-![](../assets/context-map.png)
+![](./assets/context-map.png)
 - Core domain?
     - core
     - supporting
@@ -86,7 +86,7 @@
     - Output
     - Side effects
 
-![](../assets/place-order-workflow.png)
+![](./assets/place-order-workflow.png)
 
 In DDD we let the _domain_ to drive the design, not a database schema or a class. 
 
@@ -102,7 +102,7 @@ In DDD we let the _domain_ to drive the design, not a database schema or a class
     - Distortion of the domain
 - New information learned captured in a diagram
 
-![](../assets/place-order-workflow-2.png)
+![](./assets/place-order-workflow-2.png)
 
 **Documenting the Domain**
 
@@ -226,3 +226,70 @@ substep "SendAcknowledgementToCustomer" =
 - This documentation looks a lot like code, but can still be checked by the domain experts
 
 ## Chapter 3 - A Functional Architecture
+
+C4:
+- System Context - top level; represents the entire system
+- Containers - system context compromises a number of them; deployable units
+- Components - each container compromises a number of them; major structural building blocks in the code
+- Classes (modules) - each component compromises them; contain a set of low level methods or functions
+
+Good architecture - define the boundaries between containers, components & modules such that when new requirements arise the cost of change is minimal.
+
+Bounded contexts are autonomous software components with well defined boundaries.
+
+- Single container/monolithic deployable -> bounded context is separate module with a well defined interface
+- Service oriented or microservice architecture
+- No need to make a decision, only to ensure the bounded contexts stay decoupled and autonomous
+- Can start out with monolith with well defined interfaces
+- Microservice premium = the extra burden on operations
+- Avoid distributed monoliths 
+    - switch one of the microservices off and other microservices break
+
+### Communication between Bounded Contexts
+
+- Ensuring decoupled design
+    - Use queues & events for example
+
+![](./assets/place-order-bounded.png)
+
+### Transferring Data between Bounded Contexts
+- Domain Object is an object designed to for use only within the boundaries of a context, as opposed to a Data Transfer Object
+- Data Transfer Objects (DTO) is an object designed to be serialized and shared between contexts
+
+![](./assets/dto.png)
+
+### Trust Boundaries and Validation
+
+- Perimeter of a bounded context acts as a "trust boundary"
+- "Gates" act as intermediaries between trusted domain and untrusted outside world
+    - input -> always validate
+    - output -> ensure that private information does not leak
+
+![](./assets/comms.png)
+
+### Contracts between Bounded-Contexts
+
+- **Shared Kernel** - the two contexts share some common domain design
+    - teams involved must collaborate
+    - order-taking and shipping context must use the same design for the delivery address
+        - order-taking accepts and validates address
+        - shipping context uses the same address to ship the order 
+- **Customer/Supplier or Customer Driven Contract** - the downstream context defines the contract that they want the upstream context to provide
+    - the two domains can evolve independently as long as the upstream context fulfills its obligations under the contract
+    - Billing context might define the contract and the order-taking context provides the information and no more
+- **Conformist relationship** - the downstream context accepts the domain provided by the upstream context and adapts its own domain model to match
+    - Order-taking model might adapt its model based on what the product catalog provides
+
+**Anti Corruption Layer** (or ACL) is a component that translates concepts from one domain to another in order to reduce coupling and allows domains to evolve independently.
+
+- Input gate - preventing the internal, pure domain from getting corrupted by the knowledge of the outside world
+- Translator between two different languages
+- Common pattern when using 3rd party components
+    - Helps in avoiding vendor lock-in
+
+![](./assets/contracts.png)
+
+- Order-taking and Shipping will jointly own the communications contract
+- The Billing context determines the contract and the Order-taking system will provide the contract
+- Order-taking context will submit to using the same model as the product catalog
+- External address checking service has a model that is not at all similar to our domain, hence the ACL
