@@ -81,4 +81,148 @@
 
 ## Chapter 2 - Understanding the Domain 
 
+- Place order workflow
+    - Input
+    - Output
+    - Side effects
+
+![](../assets/place-order-workflow.png)
+
+In DDD we let the _domain_ to drive the design, not a database schema or a class. 
+
+- Avoid Database-Driven Design
+    - Model the domain without respect to any particular storage implementation
+    - Users do not care about how the data is persisted
+    - Principle: persistence ignorance -> forces you to focus on modeling the domain accurately
+    - Destortion of the design in favor of fitting the DB model
+    - Requirements are subtly lost in DBDD
+- Avoid Class-Driven Design
+    - Dependency injection - seperating the DB logic from the business logic
+    - Introducing bias into the design 
+    - Distortion of the domain
+- New information learned captured in a diagram
+
+![](../assets/place-order-workflow-2.png)
+
+**Documenting the Domain**
+
+```ts
+context: Order-Taking
+
+data WidgetCode = string starting with "W" then 4 digits
+data GizmoCode = string starting with "G" then 3 digits
+data ProductCode = WidgetCode OR GizmoCode
+
+data OrderQuantity = UnitQuantity OR KilogramQuantity
+
+data UnitQuantity = integer between 1 and 1000
+data KilogramQuantity = decimal between 0.05 and 100.00 
+```
+
+- Order **lifecycle**
+    - Unvalidated -> validated -> priced
+
+```ts
+data UnvalidatedOrder =
+    UnvalidatedCustomerInfo
+    AND UnvalidatedShippingAddress
+    AND UnvalidatedBillingAddress
+    AND list of UnvalidatedOrderLine
+
+data UnvalidatedOrderLine =
+    UnvalidatedProductCode
+    AND UnvalidatedOrderQuantity
+
+data ValidatedOrder =
+    ValidatedCustomerInfo
+    AND ValidatedShippingAddress
+    AND ValidatedBillingAddress
+    AND list of ValidatedOrderLine
+
+data ValidatedOrderLine =
+    ValidatedProductCode
+    AND ValidatedOrderQuantity
+
+data PricedOrder =     
+    ValidatedCustomerInfo
+    AND ValidatedShippingAddress
+    AND ValidatedBillingAddress
+    AND list of PricedOrderLine // different from ValidatedOrderLine
+    AND AmountToBill // new
+
+data PricedOrderLine =
+    ValidatedOrderLine
+    AND LinePrice
+
+data PlacedOrderAcknowledgement =
+    PricedOrder
+    AND AcknowledgementLetter
+```
+
+**Steps in the Workflow**
+
+```ts
+workflow "Place Order" = 
+    input: OrderForm
+    output: 
+        OrderPlaced event (put on a pile to send to other teams)
+        OR InvalidOrder (put on appropriate pile)
+
+    // step 1
+    if order is invalid then:
+        add InvalidOrder to pile
+        stop
+    
+    // step 2
+    do PriceOrder
+
+    // step 3
+    do SendAcknowledgementToCustomer
+
+    // step 4
+    return OrderPlaced event (if no errors)
+```
+
+```ts
+substep "ValidatedOrder" =
+    input: UnvalidatedOrder
+    output: ValidatedOrder OR ValidationError
+    dependencies: CheckProductCodeExists, CheckAddressExists
+
+    validate the customer name
+    check that the shipping and billing address exists
+    for each line:
+        check product code syntax
+        check that product exists in ProductCatalog
+    
+    if everything OK, then:
+        return ValidatedOrder
+    else:
+        return ValidationError
+```
+
+```ts
+substep "PriceOrder" =
+    input: ValidatedOrder
+    output: PricedOrder
+    dependencies: GetProductPrice
+
+    for each line:
+        get the price for the product
+        set the price for the line
+    
+    set the amount to bill (=sum of the line prices)
+```
+
+```ts
+substep "SendAcknowledgementToCustomer" =
+    input: PricedOrder
+    output: None
+
+    create ack letter and send it
+    and the priced order to the customer
+```
+
+- This documentation looks a lot like code, but can still be checked by the domain experts
+
 ## Chapter 3 - A Functional Architecture
