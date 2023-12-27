@@ -122,11 +122,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj",
+      "projectUniqueName": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/OrderTakingSystem/OrderTakingSystem.fsproj",
       "projectName": "OrderTakingSystem",
-      "projectPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/OrderTakingSystem.fsproj",
+      "projectPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/OrderTakingSystem/OrderTakingSystem.fsproj",
       "packagesPath": "/Users/dkZsBoTo/.nuget/packages/",
-      "outputPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/notes/part-II/OrderTakingSystem/obj/",
+      "outputPath": "/Users/dkZsBoTo/repos/domain-modeling-made-functional/OrderTakingSystem/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/dkZsBoTo/.nuget/NuGet/NuGet.Config"
