@@ -5,11 +5,11 @@ This repository contains my notes on the following book:
 
 ## Structure
 
-[Part I - Understanding the Domain](notes/part-I/UNDERSTANDING-THE-DOMAIN.md)
+[Part I - Understanding the Domain](notes/PART-I.md)
 
-[Part II - Modeling the Domain](notes/part-II/MODELING-THE-DOMAIN.md)
+[Part II - Modeling the Domain](notes/PART-II.md)
 
-[Part III - Implementing the Model](notes/part-III/IMPLEMENTING-THE-MODEL.md)
+[Part III - Implementing the Model](notes/PART-III.md)
 
 [Code](OrderTakingSystem)
 - The author's [implementation](https://github.com/swlaschin/DomainModelingMadeFunctional/tree/master)
