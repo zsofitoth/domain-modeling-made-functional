@@ -3,6 +3,8 @@ namespace OrderTakingSystem.Domain
 module Undefined =
     let value<'T> : 'T = failwith "Not implemented yet"
 
+type AsyncResult<'success, 'failure> = Async<Result<'success, 'failure>> 
+
 // Value Objects
 type WidgetCode = WidgetCode of string // constraint: starting with "W" then 4 digits
 type GizmoCode = GizmoCode of string // constraint: starting with "G" then 3 digits
@@ -67,24 +69,40 @@ type OrderLine = {
     Price: Price;
 }
 
-type UnvalidatedAddress = Undefined
-// type ValidatedAddress = private ...
-
 // Workflows
 
+// INPUT DATA
 type UnvalidatedOrder = {
     OrderId: string;
-    // CustomerInfo: 
+    CustomerInfo: UnvalidatedCustomer;
     ShippingAddress: UnvalidatedAddress;
     // ...
+} and UnvalidatedCustomer = {
+    Name: string;
+    Email: string;
+
+} and UnvalidatedAddress = Undefined
+
+// INPUT COMMANDS
+type Command<'data> = {
+    Data: 'data;
+    // Timestamp: DateTime;
+    UserId: string;
 }
 
-type PlaceOrderEvents = Undefined
-// {
-//     // AcknowledgementSent: 
-//     // OrderPlaced: 
-//     // BillableOrderPlaced: 
-// }
+type PlaceOrder = Command<UnvalidatedOrder>
+
+// Public API
+
+type OrderPlaced = Undefined
+type BillableOrderPlaced = Undefined
+type OrderAcknowledgementSent = Undefined
+
+type PlaceOrderEvent = 
+    | AcknowledgementSent of OrderAcknowledgementSent
+    | OrderPlaced of OrderPlaced
+    | BillableOrderPlaced of BillableOrderPlaced
+
 
 type PlaceOrderError = 
     | ValidationError of ValidationError list
@@ -94,5 +112,7 @@ and ValidationError = {
     ErrorDescription: string;
 }
 
-type PlaceOrder =
-    UnvalidatedOrder -> Result<PlaceOrderEvents, PlaceOrderError>
+type PlaceOrderWorkflow =
+    PlaceOrder -> AsyncResult<PlaceOrderEvent list, PlaceOrderError>
+
+
