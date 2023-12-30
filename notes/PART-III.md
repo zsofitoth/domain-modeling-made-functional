@@ -74,6 +74,35 @@ Error Types:
 
 ## Chapter 11 - Serialization
 
+Serialization is the process of converting from a domain specific representation to a representation that can be persisted easily. (JSON, XML, binary)
+
+- Always serialize the DTO, not the domain type
+    - Design the DTO for serialization
+- Deserialization should always succeed unless the underlying data is corrupted
+    - The logic should be just about translating JSON, XML, binary, etc to the data structure (DTO)
+    - Validation should catch other errors
+- Wrapping JSON serializer libraries
+    - In case the libraries throw errors, they can be wrapped so that the exception is turned to a `Result`
+- DTO types - contract between bounded contexts
+
+### Translating Domain Types to DTOs
+
+The goal is to make the DTOs simple and easy to serialize/deserialize. The DTOs don't need to represent the domain itself or do any business logic, only responsibility is data transfer.
+
+Examples:
+- Single-Case Unions
+    - Convert to underlying primitive
+- Options
+    - `null`, `Nullable<int>`
+- Records
+- Collections
+    - Should be converted to arrays as they are supported in every serialization format
+- Discriminated Unions used as Enums
+    - .Net enums
+- Tuples
+- Choice Types
+- Generics
+
 ## Chapter 12 - Persistence 
 
 ## Chapter 13 - Evolving a Design and Keeping it Clean
