@@ -105,4 +105,26 @@ Examples:
 
 ## Chapter 12 - Persistence 
 
+State that need to last longer than the lifetime of a workflow or process.
+- There is almost always mismatch when moving from the "perfect" domain to messy infrastructure
+
+General guidelines:
+- Push persistence to the edges - avoid persistent related logic in the workflow, keep them pure
+    - Domain centric part that contains the business logic
+    - "Edge" part that contains the I/O related code
+    - No mixing of I/O and logic
+    - Testing is easier
+    - The repository pattern does not fit in - it hides persistence in an object oriented design that relies on mutability
+- Separate commands (updates) from queries (reads)
+    - Command query separation
+        - Functions that return data should not have side effects
+        - Functions that have side effects should not return data (`unit`)
+        - Command-query responsibility seggragation
+- Bounded contexts must own their own data store
+    - No other system can access the data owned by the bounded context
+- Transaction
+    - Too costly
+    - Reconciliation process2
+    - Detect inconsistency and roll back
+
 ## Chapter 13 - Evolving a Design and Keeping it Clean
