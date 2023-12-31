@@ -124,7 +124,9 @@ General guidelines:
     - No other system can access the data owned by the bounded context
 - Transaction
     - Too costly
-    - Reconciliation process2
+    - Reconciliation process
     - Detect inconsistency and roll back
 
 ## Chapter 13 - Evolving a Design and Keeping it Clean
+
+Evolving the model as requirements change
